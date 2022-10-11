@@ -1,0 +1,79 @@
+Padding
+
+Reason :
+
+1- Shrinking output
+2- Loosing info from the edges.
+
+Output:
+
+((n+2p-f)/s)+1
+
+Why convolution:
+
+Parameter numbers are less incomparison to neural network
+
+(63+2p-7)+1 = 
+
+Sparsity of connections. small input small output.
+
+
+MobileNet2 BottleNeck block:
+
+Learn more features with expansion and project to smaller channels with projection to reach memory constraints 
+
+For computational budget alignment; resolution, width and depth tradeoff should be applied properly.
+
+If there is more data early layers can be freezed and last layers can be trained.
+If there is less data, all layers can be freezed just softmax layer can be trained.
+
+Data Augmentation:
+
+Mirroring, Color Shifting(adding color distortions - PCA Color Augmentation), 10-crop(real, realleftupper-realrightupper-realleftbottom-realrightbottom crop, mirror,
+mirror, mirrorleftupper, ...)  totally 10 crop of one image.
+
+less used techniques
+random cropping, rotation, shearing of the image, local warping
+
+data augmentation and training can be done in parallel
+
+
+zero_padding2d_1 (ZeroPadding2D (None, 70, 70, 3)    0           input_2[0][0]                    
+conv2d_73 (Conv2D)              (None, 32, 32, 64)   9472        zero_padding2d_1[0][0]
+batch_normalization_73 (BatchNo (None, 32, 32, 64)   256         conv2d_73[0][0]    
+
+Parameter calculation for conv2d_73 = 7*7*3*64+64 = 9472
+f=7
+kernel=7x7x3
+kernel_qty=64
+bias=64
+
+
+Parameter calculation for batch_normalization_73 = 64*4 = 256
+[gamma weights, beta weights, moving_mean(non-trainable), moving_variance(non-trainable)], each having 64 elements (the size of the input layer)              
+          
+
+Non-max suppression:
+Highest probability detection is selected among bounding boxes
+then high IoU bounding boxes are eliminated with non-max suppression.
+
+Anchor Box-object association decision:
+Which anchor box to be associated with which object is decided by high IoU of the bounding box with the anchor box
+
+semantic segmentation:
+region-specific labeling is a pretty crucial consideration for self-driving cars, which require a pixel-perfect understanding of their environment.This type of image classification is called semantic image segmentation
+U-net takes every single pixel and label each pixel with class labels for semantic segmentation. Use transpose convolution to generate larger outputs than input.
+
+
+One-Shot learning
+system checks only 1 image from database for face recognition . this means one-shot learnig
+
+triplet loss:
+it means system checks anchor, positive and negative images to decide.
+
+Neural Style Transfer ( NST )
+
+Merges content and style image to the new image.
+
+NST Cost = (alpha*Content Cost) + (beta*Style Cost)
+
